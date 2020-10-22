@@ -10,15 +10,6 @@ function Animal(name, bDate, species){
     // this.speciesFinder();
 }
 
-// Animal.prototype.speciesFinder = function(){
-//     if(this.species === 'dog'){
-//         new Dog();
-//     }else if(this.species === 'cat'){
-//         new Cat();
-//     }else if(this.species === 'birds'){
-//         new Birds();
-//     }
-// }
 Animal.prototype.speak = function(){
     console.log(this.species);
 }
