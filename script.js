@@ -5,7 +5,7 @@ const fileName = process.argv[2];
 // Animal Class
 function Animal(name, bDate, species){
     this.name = name;
-    this.bDate = bDate;
+    this.bDate = new Date(bDate);
     this.species = species;
     // this.speciesFinder();
 }
@@ -14,8 +14,8 @@ Animal.prototype.speak = function(){
     console.log(this.species);
 }
 Animal.prototype.findAge = function(){
-    let bdateYear = new Date(this.bDate).getFullYear();
-    let todayYear = new Date().getFullYear();
+    const bdateYear = this.bDate.getFullYear();
+    const todayYear = new Date().getFullYear();
     return todayYear - bdateYear;
 }
 
@@ -63,7 +63,7 @@ fs.readFile(fileName, 'utf8', (err, data)=>{
             for(let charIndex = 0; charIndex < word.length; charIndex++){
                 let char = word[charIndex]
                 // console.log(char);
-                char !== "\'" && char !== "\"" && char !== " " ? newWord += char : '';
+                char !== "\'" && char !== "\"" && char !== " " && char !== "" ? newWord += char : '';
             }
             trimmedArray.push(newWord);
         })
@@ -85,7 +85,7 @@ fs.readFile(fileName, 'utf8', (err, data)=>{
     })
     
 
-    // Most frequently occurred group of animals by species
+    //? Most frequently occurred group of animals by species
     let countObject = {};
     let highestFreq = {'spec':'', 'freq': 0};
     animalArray.forEach(animal=>{
@@ -102,16 +102,22 @@ fs.readFile(fileName, 'utf8', (err, data)=>{
     console.log(countObject);
     console.log(highestFreq);
 
-    // Finding the oldest Animal
-    let oldestAnimal = 0;
+    //? Finding the oldest Animal
+    let oldesAnimalbDate = new Date();
     let actualAnimal;
     animalArray.forEach(animal=>{
-        let animalAge = animal.findAge();
-        if(animalAge >= oldestAnimal && animal.species === highestFreq.spec){
-            oldestAnimal = animalAge;
+        if(animal.bDate < oldesAnimalbDate && animal.species === highestFreq.spec){
+            oldesAnimalbDate = animal.bDate;
             actualAnimal = animal;
         }
     })
     console.log(`${actualAnimal.name} the ${actualAnimal.findAge()} year old ${actualAnimal.species} says "${actualAnimal.speak()}!"`)
 })
 
+//! Better solutions
+// const groupedAnimals = {};
+// animalArray.forEach((animal)=>{
+//     if(!groupedAnimals[animal.species]){
+//         groupedAnimals[animal.species]
+//     }
+// })
