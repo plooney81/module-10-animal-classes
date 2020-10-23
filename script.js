@@ -54,7 +54,6 @@ fs.readFile(fileName, 'utf8', (err, data)=>{
     if(err) return console.log(err);
     allAnimalInfoString = data.split("\n");
     let actualInfo = [];
-    let trimmedActualInfo = [];
     allAnimalInfoString.forEach((animal, animalIndex)=>{
         let trimmedArray = [];
         actualInfo = animal.split(",")
@@ -84,21 +83,7 @@ fs.readFile(fileName, 'utf8', (err, data)=>{
             }
         }
     })
-    // console.log(animalArray[0]);
-    // animalArray[0].speak();
-    // console.log(animalArray[0].findAge());
     
-    // Finding the oldest Animal
-    let oldestAnimal = 0;
-    let actualAnimal;
-    animalArray.forEach(animal=>{
-        let animalAge = animal.findAge();
-        if(animalAge >= oldestAnimal){
-            oldestAnimal = animalAge;
-            actualAnimal = animal;
-        }
-    })
-    // console.log(`${actualAnimal.name} the ${actualAnimal.findAge()} year old ${actualAnimal.species} says "${actualAnimal.speak()}!"`)
 
     // Most frequently occurred group of animals by species
     let countObject = {};
@@ -116,5 +101,17 @@ fs.readFile(fileName, 'utf8', (err, data)=>{
     })
     console.log(countObject);
     console.log(highestFreq);
+
+    // Finding the oldest Animal
+    let oldestAnimal = 0;
+    let actualAnimal;
+    animalArray.forEach(animal=>{
+        let animalAge = animal.findAge();
+        if(animalAge >= oldestAnimal && animal.species === highestFreq.spec){
+            oldestAnimal = animalAge;
+            actualAnimal = animal;
+        }
+    })
+    console.log(`${actualAnimal.name} the ${actualAnimal.findAge()} year old ${actualAnimal.species} says "${actualAnimal.speak()}!"`)
 })
 
